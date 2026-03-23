@@ -284,11 +284,64 @@ export default function PublicProfilePage() {
     const handleAddComment = async (foodId) => {
       if (!viewerUid || !uid) return;
 
-      const text = (commentInputs[foodId] || "").trim();
-      if (!text) {
-        alert("Write a comment first.");
-        return;
-      }
+      const handleAddComment = async (foodId) => {
+        if (!viewerUid || !uid) {
+          alert("You must be logged in to comment.");
+          return;
+        }
+
+        const text = (commentInputs[foodId] || "").trim();
+        if (!text) {
+          alert("Write a comment first.");
+          return;
+        }
+
+        if (busyComments[foodId]) return;
+
+        setBusyComments((prev) => ({ ...prev, [foodId]: true }));
+
+        try {
+          const viewerSnap = await getDoc(doc(db, "users", viewerUid));
+          const viewerName = viewerSnap.exists()
+            ? viewerSnap.data().displayName || "Anonymous"
+            : auth.currentUser?.email || "Anonymous";
+
+          const commentsRef = collection(db, "users", uid, "foods", foodId, "comments");
+          const newCommentRef = await addDoc(commentsRef, {
+            author: viewerName,
+            authorId: viewerUid,
+            text,
+            createdAt: serverTimestamp(),
+          });
+
+          setFoods((prev) =>
+            prev.map((food) =>
+              food.id === foodId
+                ? {
+                    ...food,
+                    comments: [
+                      ...food.comments,
+                      {
+                        id: newCommentRef.id,
+                        author: viewerName,
+                        authorId: viewerUid,
+                        text,
+                        createdAt: new Date(),
+                      },
+                    ],
+                  }
+                : food
+            )
+          );
+
+          setCommentInputs((prev) => ({ ...prev, [foodId]: "" }));
+        } catch (err) {
+          console.error("Failed to add comment:", err);
+          alert("Comment failed.");
+        } finally {
+          setBusyComments((prev) => ({ ...prev, [foodId]: false }));
+        }
+      };
 
       if (busyComments[foodId]) return;
 
