@@ -54,7 +54,14 @@ export default function PublicProfilePage() {
         let likedByViewer = false;
 
         try {
-          const commentsRef = collection(db, "users", ownerUid, "foods", foodId, "comments");
+          const commentsRef = collection(
+            db,
+            "users",
+            ownerUid,
+            "foods",
+            foodId,
+            "comments"
+          );
           const commentsQuery = query(commentsRef, orderBy("createdAt", "asc"));
           const commentsSnap = await getDocs(commentsQuery);
 
@@ -66,7 +73,8 @@ export default function PublicProfilePage() {
               authorId: commentData.authorId ?? null,
               text: commentData.text ?? "",
               createdAt:
-                commentData.createdAt && typeof commentData.createdAt.toDate === "function"
+                commentData.createdAt &&
+                typeof commentData.createdAt.toDate === "function"
                   ? commentData.createdAt.toDate()
                   : null,
             };
@@ -77,7 +85,15 @@ export default function PublicProfilePage() {
 
         if (viewerUid) {
           try {
-            const likeDocRef = doc(db, "users", ownerUid, "foods", foodId, "likes", viewerUid);
+            const likeDocRef = doc(
+              db,
+              "users",
+              ownerUid,
+              "foods",
+              foodId,
+              "likes",
+              viewerUid
+            );
             const likeSnap = await getDoc(likeDocRef);
             likedByViewer = likeSnap.exists();
           } catch {
@@ -131,7 +147,12 @@ export default function PublicProfilePage() {
         await Promise.all(
           foodcartDocs.map(async (foodcartDoc) => {
             try {
-              const reviewsRef = collection(db, "Foodcarts", foodcartDoc.id, "reviews");
+              const reviewsRef = collection(
+                db,
+                "Foodcarts",
+                foodcartDoc.id,
+                "reviews"
+              );
               const reviewsSnap = await getDocs(reviewsRef);
 
               reviewsSnap.forEach((reviewDoc) => {
@@ -141,7 +162,7 @@ export default function PublicProfilePage() {
                 }
               });
             } catch {
-              // ignore individual review read failures
+              // ignore
             }
           })
         );
@@ -281,115 +302,17 @@ export default function PublicProfilePage() {
     }
   };
 
-    const handleAddComment = async (foodId) => {
-      if (!viewerUid || !uid) return;
+  const handleAddComment = async (foodId) => {
+    if (!viewerUid || !uid) {
+      alert("You must be logged in to comment.");
+      return;
+    }
 
-      const handleAddComment = async (foodId) => {
-        if (!viewerUid || !uid) {
-          alert("You must be logged in to comment.");
-          return;
-        }
-
-        const text = (commentInputs[foodId] || "").trim();
-        if (!text) {
-          alert("Write a comment first.");
-          return;
-        }
-
-        if (busyComments[foodId]) return;
-
-        setBusyComments((prev) => ({ ...prev, [foodId]: true }));
-
-        try {
-          const viewerSnap = await getDoc(doc(db, "users", viewerUid));
-          const viewerName = viewerSnap.exists()
-            ? viewerSnap.data().displayName || "Anonymous"
-            : auth.currentUser?.email || "Anonymous";
-
-          const commentsRef = collection(db, "users", uid, "foods", foodId, "comments");
-          const newCommentRef = await addDoc(commentsRef, {
-            author: viewerName,
-            authorId: viewerUid,
-            text,
-            createdAt: serverTimestamp(),
-          });
-
-          setFoods((prev) =>
-            prev.map((food) =>
-              food.id === foodId
-                ? {
-                    ...food,
-                    comments: [
-                      ...food.comments,
-                      {
-                        id: newCommentRef.id,
-                        author: viewerName,
-                        authorId: viewerUid,
-                        text,
-                        createdAt: new Date(),
-                      },
-                    ],
-                  }
-                : food
-            )
-          );
-
-          setCommentInputs((prev) => ({ ...prev, [foodId]: "" }));
-        } catch (err) {
-          console.error("Failed to add comment:", err);
-          alert("Comment failed.");
-        } finally {
-          setBusyComments((prev) => ({ ...prev, [foodId]: false }));
-        }
-      };
-
-      if (busyComments[foodId]) return;
-
-      setBusyComments((prev) => ({ ...prev, [foodId]: true }));
-
-      try {
-        const viewerSnap = await getDoc(doc(db, "users", viewerUid));
-        const viewerName = viewerSnap.exists()
-          ? viewerSnap.data().displayName || "Anonymous"
-          : auth.currentUser?.email || "Anonymous";
-
-        const commentsRef = collection(db, "users", uid, "foods", foodId, "comments");
-
-        const newCommentRef = await addDoc(commentsRef, {
-          author: viewerName,
-          authorId: viewerUid,
-          text,
-          createdAt: serverTimestamp(),
-        });
-
-        setFoods((prev) =>
-          prev.map((food) =>
-            food.id === foodId
-              ? {
-                  ...food,
-                  comments: [
-                    ...food.comments,
-                    {
-                      id: newCommentRef.id,
-                      author: viewerName,
-                      authorId: viewerUid,
-                      text,
-                      createdAt: new Date(),
-                    },
-                  ],
-                }
-              : food
-          )
-        );
-
-        setCommentInputs((prev) => ({ ...prev, [foodId]: "" }));
-      } catch (err) {
-        console.error("Failed to add comment:", err);
-        alert("Comment failed.");
-      } finally {
-        setBusyComments((prev) => ({ ...prev, [foodId]: false }));
-      }
-    };
+    const text = (commentInputs[foodId] || "").trim();
+    if (!text) {
+      alert("Write a comment first.");
+      return;
+    }
 
     if (busyComments[foodId]) return;
 
@@ -460,16 +383,22 @@ export default function PublicProfilePage() {
               <div className={styles.identity}>
                 <div className={styles.avatar}>
                   {profile.profilePicture ? (
-                    <img src={profile.profilePicture} alt={`${profile.displayName} profile`} />
+                    <img
+                      src={profile.profilePicture}
+                      alt={`${profile.displayName} profile`}
+                    />
                   ) : (
                     initials
                   )}
                 </div>
 
                 <div className={styles.identityText}>
-                  <h1 className={styles.name}>{profile.displayName || "Anonymous User"}</h1>
+                  <h1 className={styles.name}>
+                    {profile.displayName || "Anonymous User"}
+                  </h1>
                   <p className={styles.grad}>
-                    Graduating {profile.gradMonth || "Unknown"} {profile.gradYear || ""}
+                    Graduating {profile.gradMonth || "Unknown"}{" "}
+                    {profile.gradYear || ""}
                   </p>
                 </div>
               </div>
@@ -492,7 +421,8 @@ export default function PublicProfilePage() {
 
             {foods.length === 0 ? (
               <div className={styles.emptyState}>
-                No food posts yet. This section will fill up once this user starts uploading meals.
+                No food posts yet. This section will fill up once this user
+                starts uploading meals.
               </div>
             ) : (
               <div className={styles.foodGrid}>
@@ -514,17 +444,22 @@ export default function PublicProfilePage() {
                       </p>
 
                       <div className={styles.foodMeta}>
-                        {food.createdAt ? food.createdAt.toLocaleDateString() : "Just posted"}
+                        {food.createdAt
+                          ? food.createdAt.toLocaleDateString()
+                          : "Just posted"}
                       </div>
 
                       <div className={styles.socialBar}>
                         <button
                           type="button"
                           className={styles.likeBtn}
-                          onClick={() => handleToggleLike(food.id, food.likedByViewer)}
+                          onClick={() =>
+                            handleToggleLike(food.id, food.likedByViewer)
+                          }
                           disabled={busyLikes[food.id]}
                         >
-                          {food.likedByViewer ? "♥ Liked" : "♡ Like"} · {food.likes || 0}
+                          {food.likedByViewer ? "♥ Liked" : "♡ Like"} ·{" "}
+                          {food.likes || 0}
                         </button>
                       </div>
 
@@ -535,32 +470,38 @@ export default function PublicProfilePage() {
                           ) : (
                             food.comments.map((comment) => (
                               <div key={comment.id} className={styles.commentItem}>
-                                <span className={styles.commentAuthor}>{comment.author}</span>
-                                <span className={styles.commentText}> {comment.text}</span>
+                                <span className={styles.commentAuthor}>
+                                  {comment.author}
+                                </span>
+                                <span className={styles.commentText}>
+                                  {" "}
+                                  {comment.text}
+                                </span>
 
                                 {viewerUid === uid && (
                                   <button
-                                    onClick={() => handleDeleteComment(food.id, comment.id)}
-                                    style={{
-                                      marginLeft: 8,
-                                      fontSize: 12,
-                                      color: "#B00020",
-                                      background: "transparent",
-                                      border: "none",
-                                      cursor: "pointer",
-                                    }}
+                                    type="button"
+                                    className={styles.deleteCommentBtn}
+                                    onClick={() =>
+                                      handleDeleteComment(food.id, comment.id)
+                                    }
                                   >
                                     Delete
                                   </button>
                                 )}
                               </div>
+                            ))
+                          )}
+                        </div>
 
                         <div className={styles.commentComposer}>
                           <input
                             className={styles.commentInput}
                             type="text"
                             placeholder={
-                              viewerUid ? "Write a comment..." : "Log in to comment"
+                              viewerUid
+                                ? "Write a comment..."
+                                : "Log in to comment"
                             }
                             value={commentInputs[food.id] || ""}
                             onChange={(e) =>
@@ -593,7 +534,9 @@ export default function PublicProfilePage() {
             <div className={styles.sideList}>
               <div className={styles.statRow}>
                 <span className={styles.statLabel}>Display Name</span>
-                <span className={styles.statValue}>{profile.displayName || "Anonymous"}</span>
+                <span className={styles.statValue}>
+                  {profile.displayName || "Anonymous"}
+                </span>
               </div>
 
               <div className={styles.statRow}>
