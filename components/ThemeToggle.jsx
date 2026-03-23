@@ -7,17 +7,16 @@ export default function ThemeToggle() {
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
-    let currentTheme = "light";
-
     try {
       const saved = localStorage.getItem("drexel_theme");
-      if (saved === "dark") {
-        currentTheme = "dark";
-      }
-    } catch {}
+      const currentTheme = saved === "dark" ? "dark" : "light";
 
-    setTheme(currentTheme);
-    document.documentElement.setAttribute("data-theme", currentTheme);
+      setTheme(currentTheme);
+      document.documentElement.setAttribute("data-theme", currentTheme);
+    } catch {
+      document.documentElement.setAttribute("data-theme", "light");
+    }
+
     setReady(true);
   }, []);
 
@@ -44,11 +43,11 @@ export default function ThemeToggle() {
       style={{
         position: "fixed",
         right: 16,
-        top: 92,
-        zIndex: 999999,
+        top: 80,
+        zIndex: 9999,
         width: 42,
         height: 42,
-        borderRadius: 999,
+        borderRadius: "50%",
         border: "1px solid var(--border)",
         background: "var(--card)",
         color: "var(--text)",

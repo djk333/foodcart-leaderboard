@@ -1,8 +1,9 @@
 .login {
-	background-color: #fff;
+	background-color: var(--card);
+	color: var(--text);
 	padding: 40px 50px;
 	border-radius: 15px;
-	box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+	box-shadow: var(--shadow);
 	width: 45%;
 	text-align: center;
 	justify-content: center;
@@ -13,10 +14,11 @@
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
+	border: 1px solid var(--border);
 }
 
 .login h1 {
-	color: #0b2d4f;
+	color: var(--text);
 	margin-top: 0;
 	margin-bottom: 30px;
 }
@@ -33,7 +35,7 @@
 	margin-top: 15px;
 	margin-bottom: 5px;
 	text-align: left;
-	color: #555;
+	color: var(--text);
 	font-weight: bold;
 }
 
@@ -47,10 +49,11 @@
 	margin-bottom: 0;
 	padding: 12px;
 	box-sizing: border-box;
-	border: 1px solid #ddd;
+	border: 1px solid var(--border);
 	border-radius: 5px;
 	font-size: 14px;
-	transition: border-color 0.3s ease;
+	background: var(--card);
+	color: var(--text);
 }
 
 .login input:focus {
@@ -69,15 +72,10 @@
 	font-size: 16px;
 	font-weight: bold;
 	cursor: pointer;
-	transition: background-color 0.3s ease;
 }
 
 .login button:hover {
 	background-color: #f89705;
-}
-
-.login button:active {
-	transform: scale(0.98);
 }
 
 .login button:disabled {
@@ -86,23 +84,19 @@
 	opacity: 0.7;
 }
 
-.login button:disabled:hover {
-	background-color: #ccc;
-}
-
 .login .error {
 	margin-top: 15px;
 	padding: 12px;
-	background-color: #fee;
+	background-color: rgba(255, 0, 0, 0.1);
 	color: #c33;
-	border: 1px solid #fcc;
+	border: 1px solid var(--border);
 	border-radius: 5px;
 	font-size: 14px;
 	text-align: left;
 }
 
 .login input:disabled {
-	background-color: #f5f5f5;
+	background-color: var(--muted);
 	cursor: not-allowed;
 	opacity: 0.7;
 }
@@ -110,7 +104,7 @@
 .login .link {
 	margin-top: 20px;
 	font-size: 14px;
-	color: #555;
+	color: var(--text);
 }
 
 .login .link button,
@@ -118,10 +112,8 @@
 	background: none;
 	border: none;
 	color: #356799;
-	text-decoration: none;
 	font-weight: bold;
 	cursor: pointer;
-	transition: color 0.3s ease;
 	padding: 0;
 	font-size: 14px;
 	font-family: inherit;
@@ -133,3 +125,13 @@
 	text-decoration: underline;
 }
 
+/* 🔥 MOBILE FIX */
+@media (max-width: 768px) {
+	.login {
+		width: 90%;
+		padding: 24px;
+		position: static;
+		transform: none;
+		margin-top: 40px;
+	}
+}

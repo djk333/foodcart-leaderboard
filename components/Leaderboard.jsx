@@ -8,6 +8,9 @@ import { auth, db } from "@/lib/firebase";
 import { fetchVotes, fetchUserVote, castVote } from "@/lib/votes";
 import { getAllFoodcarts } from "@/lib/foodcarts";
 import styles from "./Leaderboard.module.css";
+import { ACTIVE_TERM, LOCKED_TERMS } from "@/lib/votes";
+
+
 
 function getDrexelTerm(date) {
   const year = date.getFullYear();
@@ -42,11 +45,11 @@ function getDrexelTerm(date) {
 }
 
 function generatePreviousPeriods() {
-  return ["Fall 25-26", "Winter 25-26"];
+  return ["Fall 2025-26", "Winter 2025-26", "Spring 2025-26"];
 }
 
 export default function Leaderboard({ trucks: trucksProp, title, subtitle }) {
-  const currentPeriod = getDrexelTerm(new Date());
+  const currentPeriod = ACTIVE_TERM;
 
   const basePeriods = generatePreviousPeriods();
   const availablePeriods = basePeriods.includes(currentPeriod)
@@ -67,7 +70,11 @@ export default function Leaderboard({ trucks: trucksProp, title, subtitle }) {
   const [showReport, setShowReport] = useState(false);
   const [reportText, setReportText] = useState("");
 
-  const isCurrentPeriod = selectedPeriod === currentPeriod;
+
+  const isLocked = LOCKED_TERMS.includes(selectedPeriod);
+  const isCurrentPeriod = selectedPeriod === currentPeriod && !isLocked;
+
+
 
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, (user) => {
@@ -363,13 +370,15 @@ export default function Leaderboard({ trucks: trucksProp, title, subtitle }) {
                           : undefined
                     }
                   >
-                    {!isCurrentPeriod
-                      ? "View Only"
-                      : !uid
-                        ? "Sign in"
-                        : isSelected
-                          ? "Voted"
-                          : "Vote"}
+                    {isLocked
+                      ? "Locked"
+                      : !isCurrentPeriod
+                        ? "View Only"
+                        : !uid
+                          ? "Sign in"
+                          : isSelected
+                            ? "Voted"
+                            : "Vote"}
                   </button>
                 </div>
               </div>

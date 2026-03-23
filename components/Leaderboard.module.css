@@ -29,6 +29,7 @@
   display:flex;
   gap:12px;
   align-items:center;
+  flex-wrap: wrap;
 }
 
 .periodSelect{
@@ -103,18 +104,21 @@
   display:flex;
   align-items:center;
   gap:14px;
+  min-width: 0;
 }
 
 .rank{
   font-weight:950;
   opacity:0.7;
   width:58px;
+  flex-shrink: 0;
 }
 
 .nameWrap{
   display:flex;
   flex-direction:column;
   gap:4px;
+  min-width: 0;
 }
 
 .name {
@@ -146,6 +150,7 @@
   font-size:12px;
   opacity:0.75;
   line-height:1.2;
+  word-break: break-word;
 }
 
 .right{
@@ -173,6 +178,7 @@
 
 .votes{
   font-weight:950;
+  white-space: nowrap;
 }
 
 .voteBtn{
@@ -183,6 +189,7 @@
   color: white;
   font-weight: 900;
   cursor: pointer;
+  white-space: nowrap;
 }
 
 .voteBtn:hover{
@@ -279,4 +286,76 @@
   color: var(--text);
   font-weight: 900;
   cursor: pointer;
+}
+
+/* Mobile */
+@media (max-width: 768px){
+  .page{
+    width: min(100%, 94vw);
+    margin: 18px auto 90px;
+  }
+
+  .hero{
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .h1{
+    font-size: 28px;
+  }
+
+  .controls{
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .periodSelect,
+  .search{
+    width: 100%;
+    min-width: 0;
+  }
+
+  .headRow{
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  .row{
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .left{
+    align-items: flex-start;
+  }
+
+  .right{
+    min-width: 0;
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+  }
+
+  .barWrap{
+    width: 100%;
+  }
+
+  .votes{
+    min-width: fit-content;
+  }
+
+  .voteBtn{
+    width: 100%;
+  }
+
+  .reportFloatingBtn{
+    right: 14px;
+    bottom: 14px;
+    padding: 11px 14px;
+  }
+
+  .modal{
+    padding: 14px;
+  }
 }

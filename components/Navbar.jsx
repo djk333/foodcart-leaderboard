@@ -5,6 +5,7 @@ import Link from "next/link";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import { auth } from "../lib/firebase";
+import ThemeToggle from "./ThemeToggle";
 
 const DREXEL_BLUE = "#07294D";
 const DREXEL_GOLD = "#FFC600";
@@ -54,9 +55,7 @@ export default function Navbar() {
   }
 
   const navLinks = [
-    //{ label: "Map", href: "/map" },
-    //{ label: "View Reviews", href: "/viewing" },
-    { label: "Find People", href: "/profile" },
+    { label: "Find People", href: "/profiles" },
     { label: "Profile", href: "/profileEditor" },
     { label: "Customize Truck Profile", href: "/truckpagecust" },
     ...(!loggedIn ? [{ label: "Login", href: "/login" }] : []),
@@ -78,43 +77,47 @@ export default function Navbar() {
             </div>
           </div>
 
-          <div ref={menuRef} style={styles.menuWrap}>
-            <button
-              type="button"
-              aria-label="Open menu"
-              aria-expanded={open}
-              onClick={() => setOpen((v) => !v)}
-              style={styles.hamburgerBtn}
-            >
-              <span style={styles.hamburgerLine} />
-              <span style={styles.hamburgerLine} />
-              <span style={styles.hamburgerLine} />
-            </button>
+          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+            <ThemeToggle />
 
-            {open && (
-              <div style={styles.dropdown}>
-                {navLinks.map((link) => (
-                  <Link
-                    key={link.href + link.label}
-                    href={link.href}
-                    onClick={() => setOpen(false)}
-                    style={styles.dropdownLink}
-                  >
-                    {link.label}
-                  </Link>
-                ))}
+            <div ref={menuRef} style={styles.menuWrap}>
+              <button
+                type="button"
+                aria-label="Open menu"
+                aria-expanded={open}
+                onClick={() => setOpen((v) => !v)}
+                style={styles.hamburgerBtn}
+              >
+                <span style={styles.hamburgerLine} />
+                <span style={styles.hamburgerLine} />
+                <span style={styles.hamburgerLine} />
+              </button>
 
-                {loggedIn && (
-                  <button
-                    type="button"
-                    onClick={handleLogout}
-                    style={styles.logoutButton}
-                  >
-                    Logout
-                  </button>
-                )}
-              </div>
-            )}
+              {open && (
+                <div style={styles.dropdown}>
+                  {navLinks.map((link) => (
+                    <Link
+                      key={link.href + link.label}
+                      href={link.href}
+                      onClick={() => setOpen(false)}
+                      style={styles.dropdownLink}
+                    >
+                      {link.label}
+                    </Link>
+                  ))}
+
+                  {loggedIn && (
+                    <button
+                      type="button"
+                      onClick={handleLogout}
+                      style={styles.logoutButton}
+                    >
+                      Logout
+                    </button>
+                  )}
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
@@ -142,17 +145,19 @@ const styles = {
     width: "100%",
     maxWidth: 1100,
     margin: "0 auto",
-    padding: "22px 16px",
+    padding: "18px 12px",
     display: "flex",
     alignItems: "center",
     justifyContent: "space-between",
-    gap: 16,
+    gap: 12,
+    flexWrap: "wrap",
+    rowGap: 10,
   },
 
   heroLeft: {
     display: "flex",
     alignItems: "center",
-    gap: 16,
+    gap: 12,
     minWidth: 0,
   },
 
@@ -161,9 +166,9 @@ const styles = {
   },
 
   logoWrap: {
-    width: 58,
-    height: 58,
-    borderRadius: 16,
+    width: 52,
+    height: 52,
+    borderRadius: 14,
     background: "rgba(255,255,255,0.10)",
     border: "1px solid rgba(255,255,255,0.18)",
     display: "grid",
@@ -173,22 +178,21 @@ const styles = {
 
   title: {
     margin: 0,
-    fontSize: 36,
+    fontSize: 26,
     fontWeight: 900,
-    letterSpacing: 0.2,
     lineHeight: 1.1,
   },
 
   subtitle: {
-    margin: "8px 0 0 0",
-    fontSize: 14,
+    margin: "4px 0 0 0",
+    fontSize: 12,
     opacity: 0.9,
   },
 
   goldBar: {
-    marginTop: 12,
-    height: 4,
-    width: 220,
+    marginTop: 8,
+    height: 3,
+    width: 140,
     maxWidth: "100%",
     borderRadius: 999,
     background: DREXEL_GOLD,
@@ -196,25 +200,24 @@ const styles = {
 
   menuWrap: {
     position: "relative",
-    flexShrink: 0,
   },
 
   hamburgerBtn: {
-    width: 48,
-    height: 48,
-    borderRadius: 14,
+    width: 44,
+    height: 44,
+    borderRadius: 12,
     border: "1px solid rgba(255,255,255,0.25)",
     background: "rgba(255,255,255,0.10)",
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
-    gap: 6,
+    gap: 5,
     cursor: "pointer",
     padding: 0,
   },
 
   hamburgerLine: {
-    width: 22,
+    width: 20,
     height: 2,
     background: "white",
     borderRadius: 999,
@@ -224,11 +227,11 @@ const styles = {
   dropdown: {
     position: "absolute",
     right: 0,
-    top: 58,
-    width: 230,
+    top: 52,
+    width: 220,
     background: "var(--card)",
     color: "var(--text)",
-    borderRadius: 14,
+    borderRadius: 12,
     boxShadow: "var(--shadow)",
     overflow: "hidden",
     border: "1px solid var(--border)",
@@ -237,24 +240,22 @@ const styles = {
 
   dropdownLink: {
     display: "block",
-    padding: "12px 14px",
+    padding: "10px 12px",
     textDecoration: "none",
     color: "var(--text)",
     fontWeight: 650,
-    background: "transparent",
   },
 
   logoutButton: {
     display: "block",
     width: "100%",
     textAlign: "left",
-    padding: "12px 14px",
+    padding: "10px 12px",
     border: "none",
     borderTop: "1px solid var(--border)",
     background: "transparent",
     color: "#B00020",
     fontWeight: 750,
     cursor: "pointer",
-    fontSize: "inherit",
   },
 };

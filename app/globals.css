@@ -10,6 +10,11 @@ body {
   box-sizing: border-box;
 }
 
+/* 🔥 Prevent horizontal scroll on mobile */
+html, body {
+  overflow-x: hidden;
+}
+
 :root {
   --bg: #ffffff;
   --text: #111111;
@@ -48,6 +53,18 @@ body {
 main {
   flex: 1;
   width: 100%;
+  padding: 16px;
+}
+
+/* 🔥 Better mobile scaling */
+@media (max-width: 768px) {
+  main {
+    padding: 12px;
+  }
+
+  body {
+    font-size: 14px;
+  }
 }
 
 /* Make common elements inherit theme better */
@@ -71,7 +88,13 @@ button {
   color: inherit;
 }
 
-/* Optional helper class for future shared cards */
+/* 🔥 Ensure ALL containers respect theme */
+div, section, article, aside {
+  background-color: transparent;
+  color: inherit;
+}
+
+/* Optional helper class */
 .themed-card {
   background: var(--card);
   color: var(--text);
