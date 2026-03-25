@@ -61,6 +61,7 @@ export default function Navbar() {
   const navLinks = [
     { label: "Find People", href: "/profiles" },
     { label: "Profile", href: "/profileEditor" },
+    { label: "About", href: "/about" },
     { label: "Customize Truck Profile", href: "/truckpagecust" },
     ...(!loggedIn ? [{ label: "Login", href: "/login" }] : []),
   ];
