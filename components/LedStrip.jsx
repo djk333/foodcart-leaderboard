@@ -3,7 +3,7 @@ import styles from "./LedStrip.module.css";
 
 export default function LedStrip() {
   const text =
-    "DREXEL FOOD CART LEADERBOARD • FIND • RATE • RANK • ";
+    "DU FOOD CART LEADERBOARD • FIND • RATE • RANK • ";
 
   return (
     <div className={styles.stripWrap}>

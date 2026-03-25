@@ -284,7 +284,7 @@ export default function Leaderboard({ trucks: trucksProp, title, subtitle }) {
     <div className={styles.page}>
       <div className={styles.hero}>
         <div>
-          <h1 className={styles.h1}>{title ?? "Drexel FoodCart Leaderboard"}</h1>
+          <h1 className={styles.h1}>{title ?? "DU Community FoodCart Leaderboard"}</h1>
           <p className={styles.sub}>
             {subtitle ?? `Rankings for ${selectedPeriod}. Resets at end of each term.`}
           </p>
