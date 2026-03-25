@@ -41,10 +41,6 @@ export default function ThemeToggle() {
       title={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
       onClick={toggle}
       style={{
-        position: "fixed",
-        right: 16,
-        top: 80,
-        zIndex: 9999,
         width: 42,
         height: 42,
         borderRadius: "50%",
@@ -56,6 +52,7 @@ export default function ThemeToggle() {
         boxShadow: "var(--shadow)",
         display: "grid",
         placeItems: "center",
+        flexShrink: 0,
       }}
     >
       {theme === "dark" ? "☾" : "☀"}

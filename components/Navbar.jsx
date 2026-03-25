@@ -10,7 +10,6 @@ import ThemeToggle from "./ThemeToggle";
 const DU_BLUE = "#07294D";
 const DU_GOLD = "#FFC600";
 
-// 🔥 NEW DU LOGO (no dragon)
 function DULogo() {
   return (
     <div
@@ -29,8 +28,19 @@ function DULogo() {
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const menuRef = useRef(null);
   const router = useRouter();
+
+  useEffect(() => {
+    function handleResize() {
+      setIsMobile(window.innerWidth <= 768);
+    }
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   useEffect(() => {
     function handleClickOutside(e) {
@@ -59,9 +69,10 @@ export default function Navbar() {
   }
 
   const navLinks = [
+    { label: "Leaderboard", href: "/" },
     { label: "Find People", href: "/profiles" },
-    { label: "Profile", href: "/profileEditor" },
     { label: "About", href: "/about" },
+    { label: "Profile", href: "/profileEditor" },
     { label: "Customize Truck Profile", href: "/truckpagecust" },
     ...(!loggedIn ? [{ label: "Login", href: "/login" }] : []),
   ];
@@ -69,20 +80,47 @@ export default function Navbar() {
   return (
     <header style={styles.header}>
       <div style={styles.hero}>
-        <div style={styles.heroInner}>
-          <div style={styles.heroLeft}>
+        <div
+          style={{
+            ...styles.heroInner,
+            ...(isMobile ? styles.heroInnerMobile : {}),
+          }}
+        >
+          <div
+            style={{
+              ...styles.heroLeft,
+              ...(isMobile ? styles.heroLeftMobile : {}),
+            }}
+          >
             <Link href="/" style={styles.logoWrap}>
               <DULogo />
             </Link>
 
             <div style={styles.titleWrap}>
-              <h1 style={styles.title}>DU Community Food Cart Leaderboard</h1>
+              <h1
+                style={{
+                  ...styles.title,
+                  ...(isMobile ? styles.titleMobile : {}),
+                }}
+              >
+                DU Community Food Cart Leaderboard
+              </h1>
               <p style={styles.subtitle}>Find • Rate • Rank</p>
-              <div style={styles.goldBar} />
+              <div
+                style={{
+                  ...styles.goldBar,
+                  ...(isMobile ? styles.goldBarMobile : {}),
+                }}
+              />
             </div>
           </div>
 
-          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+          <div
+            style={{
+              ...styles.actionsWrap,
+              ...(isMobile ? styles.actionsWrapMobile : {}),
+            }}
+          >
             <ThemeToggle />
 
             <div ref={menuRef} style={styles.menuWrap}>
@@ -99,7 +137,12 @@ export default function Navbar() {
               </button>
 
               {open && (
-                <div style={styles.dropdown}>
+                <div
+                  style={{
+                    ...styles.dropdown,
+                    ...(isMobile ? styles.dropdownMobile : {}),
+                  }}
+                >
                   {navLinks.map((link) => (
                     <Link
                       key={link.href + link.label}
@@ -138,69 +181,100 @@ const styles = {
   },
 
   hero: {
-    minHeight: "16vh",
     background: DU_BLUE,
     color: "white",
     borderBottom: `5px solid ${DU_GOLD}`,
-    display: "flex",
-    alignItems: "center",
   },
 
   heroInner: {
     width: "100%",
     maxWidth: 1100,
     margin: "0 auto",
-    padding: "18px 12px",
+    padding: "18px 14px",
     display: "flex",
     alignItems: "center",
     justifyContent: "space-between",
-    gap: 12,
-    flexWrap: "wrap",
-    rowGap: 10,
+    gap: 16,
+  },
+
+  heroInnerMobile: {
+    alignItems: "flex-start",
+    gap: 14,
   },
 
   heroLeft: {
     display: "flex",
     alignItems: "center",
-    gap: 12,
+    gap: 14,
     minWidth: 0,
+    flex: 1,
+  },
+
+  heroLeftMobile: {
+    alignItems: "flex-start",
+  },
+
+  actionsWrap: {
+    display: "flex",
+    alignItems: "center",
+    gap: 10,
+    flexShrink: 0,
+  },
+
+  actionsWrapMobile: {
+    alignSelf: "flex-start",
+    marginTop: 2,
   },
 
   titleWrap: {
     minWidth: 0,
+    flex: 1,
   },
 
   logoWrap: {
-    width: 52,
-    height: 52,
-    borderRadius: 14,
+    width: 56,
+    height: 56,
+    borderRadius: 16,
     background: "rgba(255,255,255,0.10)",
     border: "1px solid rgba(255,255,255,0.18)",
     display: "grid",
     placeItems: "center",
     flexShrink: 0,
+    textDecoration: "none",
   },
 
   title: {
     margin: 0,
     fontSize: 26,
     fontWeight: 900,
-    lineHeight: 1.1,
+    lineHeight: 1.08,
+    maxWidth: 620,
+  },
+
+  titleMobile: {
+    fontSize: 16,
+    lineHeight: 1.12,
+    maxWidth: "100%",
   },
 
   subtitle: {
-    margin: "4px 0 0 0",
+    margin: "6px 0 0 0",
     fontSize: 12,
     opacity: 0.9,
   },
 
   goldBar: {
-    marginTop: 8,
-    height: 3,
-    width: 140,
+    marginTop: 10,
+    height: 4,
+    width: 180,
     maxWidth: "100%",
     borderRadius: 999,
     background: DU_GOLD,
+  },
+
+  goldBarMobile: {
+    width: 110,
+    marginTop: 8,
   },
 
   menuWrap: {
@@ -233,19 +307,25 @@ const styles = {
     position: "absolute",
     right: 0,
     top: 52,
-    width: 220,
+    width: 240,
     background: "var(--card)",
     color: "var(--text)",
-    borderRadius: 12,
+    borderRadius: 14,
     boxShadow: "var(--shadow)",
     overflow: "hidden",
     border: "1px solid var(--border)",
     zIndex: 999,
   },
 
+  dropdownMobile: {
+    width: 220,
+    right: 0,
+    top: 50,
+  },
+
   dropdownLink: {
     display: "block",
-    padding: "10px 12px",
+    padding: "12px 14px",
     textDecoration: "none",
     color: "var(--text)",
     fontWeight: 650,
@@ -255,7 +335,7 @@ const styles = {
     display: "block",
     width: "100%",
     textAlign: "left",
-    padding: "10px 12px",
+    padding: "12px 14px",
     border: "none",
     borderTop: "1px solid var(--border)",
     background: "transparent",

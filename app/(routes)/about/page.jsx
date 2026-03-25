@@ -36,15 +36,9 @@ export default function AboutPage() {
         </h2>
 
         <p style={{ lineHeight: 1.6 }}>
-          Drexel's campus is ruled by food carts, but determining the greatest
-          bite is a guessing game. Our Website, Food Cart Leaderboard uses
-          crowdsourced student ratings to rank carts in real time based on
-          taste, pricing, and quickness & quality. Quickly navigate to the top
-          voted, browse dishes with images, and view a live map of carts near
-          you. Vendors receive feedback and increased foot traffic, while
-          students receive faster and better lunches between sessions. We are
-          debuting with Drexel favorites, highlights, and special deals. Vote,
-          review, and eat smarter.
+            To create a website which invokes a competitive atmosphere between food
+          trucks using a leaderboard ranking system so students can rank, vote,
+          and review food spots around campus.
         </p>
       </section>
 
@@ -60,7 +54,7 @@ export default function AboutPage() {
         }}
       >
         <p style={{ lineHeight: 1.6 }}>
-          Drexel's campus is ruled by food carts, but determining the greatest
+            Drexel's campus is ruled by food carts, but determining the greatest
           bite is a guessing game. Our Website, Food Cart Leaderboard uses
           crowdsourced student ratings to rank carts in real time based on
           taste, pricing, and quickness & quality. Quickly navigate to the top
@@ -118,6 +112,9 @@ export default function AboutPage() {
       >
         <p style={{ margin: 0, fontWeight: 700 }}>
           Computing and Informatics Design 102-103
+          <br />
+          <br />
+          2 Term / 6-month project from Fall 2025 - Winter 2026
         </p>
       </section>
     </div>
