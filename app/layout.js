@@ -2,6 +2,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "../components/Navbar";
 import ThemeInit from "../components/ThemeInit";
+import DisclaimerPopup from "../components/DisclaimerPopup";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -23,6 +24,7 @@ export default function RootLayout({ children }) {
     <html lang="en" suppressHydrationWarning>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <ThemeInit />
+        <DisclaimerPopup />
         <Navbar />
         <main>{children}</main>
 

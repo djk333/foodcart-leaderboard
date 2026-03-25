@@ -37,7 +37,6 @@
   border-radius:14px;
   border: 1px solid var(--border);
   min-width: 160px;
-  outline:none;
   background: var(--card);
   color: var(--text);
   font-size: 14px;
@@ -50,7 +49,6 @@
   border-radius:14px;
   border: 1px solid var(--border);
   min-width: 280px;
-  outline:none;
   background: var(--card);
   color: var(--text);
 }
@@ -94,10 +92,16 @@
   justify-content:space-between;
   align-items:center;
   gap:14px;
-  padding:12px 12px;
+  padding:14px;
   border-radius:16px;
   background: var(--muted);
   border: 1px solid var(--border);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.row:hover{
+  transform: translateY(-2px);
+  box-shadow: var(--shadow);
 }
 
 .left{
@@ -126,10 +130,6 @@
   font-size: 16px;
   color: var(--text) !important;
   text-decoration: none !important;
-}
-
-.name:visited {
-  color: var(--text) !important;
 }
 
 .name:hover {
@@ -202,160 +202,82 @@
   font-weight: 700;
 }
 
-/* Report button */
-.reportFloatingBtn{
-  position: fixed;
-  bottom: 22px;
-  right: 22px;
-  z-index: 9999;
-
-  padding: 12px 18px;
-  border-radius: 999px;
-  border: 1px solid rgba(255,255,255,0.25);
-
-  background: linear-gradient(135deg, #07294d, #0b3a6f);
-  color: white;
-
-  font-weight: 800;
-  cursor: pointer;
-  box-shadow: var(--shadow);
-}
-
-/* Modal */
-.modalOverlay{
-  position: fixed;
-  inset: 0;
-  z-index: 10000;
-  background: rgba(0,0,0,0.50);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 18px;
-}
-
-.modal{
-  width: 440px;
-  max-width: 100%;
-  border-radius: 18px;
-  background: var(--card);
-  border: 1px solid var(--border);
-  box-shadow: var(--shadow);
-  padding: 18px;
-}
-
-.modalTitle{
-  margin: 0 0 10px 0;
-  font-size: 18px;
-  font-weight: 950;
-}
-
-.textArea{
-  width: 100%;
-  height: 115px;
-  padding: 12px;
-  border-radius: 14px;
-  border: 1px solid var(--border);
-  background: var(--card);
-  color: var(--text);
-  outline: none;
-  resize: none;
-}
-
-.modalButtons{
-  display: flex;
-  justify-content: flex-end;
-  gap: 10px;
-  margin-top: 12px;
-}
-
-.submitBtn{
-  border: none;
-  padding: 10px 14px;
-  border-radius: 12px;
-  background: #07294d;
-  color: white;
-  font-weight: 900;
-  cursor: pointer;
-}
-
-.cancelBtn{
-  border: 1px solid var(--border);
-  padding: 10px 14px;
-  border-radius: 12px;
-  background: var(--muted);
-  color: var(--text);
-  font-weight: 900;
-  cursor: pointer;
-}
-
-/* Mobile */
+/* 📱 MOBILE (BIG UPGRADE) */
 @media (max-width: 768px){
+
   .page{
-    width: min(100%, 94vw);
-    margin: 18px auto 90px;
+    width: 100%;
+    padding: 0 14px;
+    margin: 14px auto 90px;
   }
 
   .hero{
     flex-direction: column;
     align-items: stretch;
+    gap: 10px;
   }
 
   .h1{
-    font-size: 28px;
+    font-size: 24px;
   }
 
   .controls{
     flex-direction: column;
     align-items: stretch;
+    gap: 8px;
   }
 
   .periodSelect,
   .search{
     width: 100%;
-    min-width: 0;
-  }
-
-  .headRow{
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 6px;
   }
 
   .row{
     flex-direction: column;
     align-items: stretch;
+    gap: 10px;
+    padding: 14px;
   }
 
   .left{
+    flex-direction: column;
     align-items: flex-start;
+    gap: 6px;
+  }
+
+  .rank{
+    width: auto;
+    font-size: 14px;
+  }
+
+  .name{
+    font-size: 15px;
   }
 
   .right{
-    min-width: 0;
     width: 100%;
-    flex-wrap: wrap;
-    justify-content: flex-start;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
   }
 
   .barWrap{
     width: 100%;
   }
 
-  .votes{
-    min-width: fit-content;
-  }
-
   .voteBtn{
     width: 100%;
+    padding: 10px;
+  }
+
+  .votes{
+    font-size: 14px;
   }
 
   .reportFloatingBtn{
-    right: 14px;
-    bottom: 14px;
-    padding: 11px 14px;
-  }
-
-  .modal{
-    padding: 14px;
+    right: 12px;
+    bottom: 12px;
+    padding: 10px 14px;
+    font-size: 13px;
   }
 }
