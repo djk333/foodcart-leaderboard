@@ -7,18 +7,22 @@ import { useRouter } from "next/navigation";
 import { auth } from "../lib/firebase";
 import ThemeToggle from "./ThemeToggle";
 
-const DREXEL_BLUE = "#07294D";
-const DREXEL_GOLD = "#FFC600";
+const DU_BLUE = "#07294D";
+const DU_GOLD = "#FFC600";
 
-function DragonIcon({ size = 44 }) {
+// 🔥 NEW DU LOGO (no dragon)
+function DULogo() {
   return (
-    <img
-      src="/drexel-dragon.png"
-      alt="Drexel Dragon"
-      width={size}
-      height={size}
-      style={{ display: "block", objectFit: "contain" }}
-    />
+    <div
+      style={{
+        fontWeight: 900,
+        fontSize: 20,
+        color: DU_GOLD,
+        letterSpacing: 1,
+      }}
+    >
+      DU
+    </div>
   );
 }
 
@@ -67,11 +71,11 @@ export default function Navbar() {
         <div style={styles.heroInner}>
           <div style={styles.heroLeft}>
             <Link href="/" style={styles.logoWrap}>
-              <DragonIcon size={50} />
+              <DULogo />
             </Link>
 
             <div style={styles.titleWrap}>
-              <h1 style={styles.title}>Drexel Food Cart Leaderboard</h1>
+              <h1 style={styles.title}>DU Community Food Cart Leaderboard</h1>
               <p style={styles.subtitle}>Find • Rate • Rank</p>
               <div style={styles.goldBar} />
             </div>
@@ -134,9 +138,9 @@ const styles = {
 
   hero: {
     minHeight: "16vh",
-    background: DREXEL_BLUE,
+    background: DU_BLUE,
     color: "white",
-    borderBottom: `5px solid ${DREXEL_GOLD}`,
+    borderBottom: `5px solid ${DU_GOLD}`,
     display: "flex",
     alignItems: "center",
   },
@@ -195,7 +199,7 @@ const styles = {
     width: 140,
     maxWidth: "100%",
     borderRadius: 999,
-    background: DREXEL_GOLD,
+    background: DU_GOLD,
   },
 
   menuWrap: {
