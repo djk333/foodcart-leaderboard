@@ -59,7 +59,6 @@
   padding:16px;
   border: 1px solid var(--border);
   box-shadow: var(--shadow);
-  overflow: hidden;
 }
 
 .headRow{
@@ -92,14 +91,13 @@
 .row{
   display:flex;
   justify-content:space-between;
-  align-items:center;
+  align-items:flex-start;
   gap:14px;
   padding:14px;
   border-radius:16px;
   background: var(--muted);
   border: 1px solid var(--border);
   transition: transform 0.15s ease, box-shadow 0.15s ease;
-  overflow: hidden;
 }
 
 .row:hover{
@@ -128,6 +126,7 @@
   gap:4px;
   min-width: 0;
   flex: 1;
+  justify-content:center;
 }
 
 .name {
@@ -167,6 +166,7 @@
   gap:12px;
   min-width: 320px;
   justify-content:flex-end;
+  align-self:center;
 }
 
 .barWrap{
