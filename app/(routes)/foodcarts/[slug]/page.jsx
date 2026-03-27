@@ -163,30 +163,6 @@ export default function FoodcartPage() {
     );
   }
 
-  const theme = truck.style || { primary: "#333", accent: "#0070f3" };
-
-  const drinkKeywords = [
-    "tea",
-    "coffee",
-    "boba",
-    "beverage",
-    "soda",
-    "water",
-    "juice",
-    "drink",
-  ];
-
-  const drinks = truck.menu.filter((item) =>
-    drinkKeywords.some((keyword) => item.name.toLowerCase().includes(keyword))
-  );
-
-  const food = truck.menu.filter(
-    (item) =>
-      !drinkKeywords.some((keyword) =>
-        item.name.toLowerCase().includes(keyword)
-      )
-  );
-
   return (
     <main
       style={{
@@ -194,14 +170,18 @@ export default function FoodcartPage() {
         maxWidth: "800px",
         margin: "0 auto",
         minHeight: "100vh",
-        backgroundColor: "#F8F9FA",
-        color: "#1A1A1A",
+        backgroundColor: "var(--bg)",
+        color: "var(--text)",
         fontFamily: "system-ui, sans-serif",
       }}
     >
       <Link
         href="/"
-        style={{ color: theme.primary, textDecoration: "none", fontWeight: "600" }}
+        style={{
+          color: "#07294D",
+          textDecoration: "none",
+          fontWeight: "600",
+        }}
       >
         ← Back to Leaderboard
       </Link>
@@ -209,11 +189,10 @@ export default function FoodcartPage() {
       <header style={{ textAlign: "center", margin: "40px 0" }}>
         <h1
           style={{
-            fontSize: "3rem",
-            color: theme.primary,
+            fontSize: "clamp(2rem, 5vw, 3rem)",
+            color: "#07294D",
             margin: "0 0 10px 0",
-            textTransform: "uppercase",
-            letterSpacing: "1px",
+            letterSpacing: "0.5px",
           }}
         >
           {truck.name}
@@ -225,11 +204,12 @@ export default function FoodcartPage() {
             justifyContent: "center",
             gap: "10px",
             alignItems: "center",
+            flexWrap: "wrap",
           }}
         >
           <span
             style={{
-              background: theme.primary,
+              background: "#07294D",
               color: "white",
               padding: "4px 12px",
               borderRadius: "20px",
@@ -245,132 +225,83 @@ export default function FoodcartPage() {
 
       <section
         style={{
-          background: "white",
-          padding: "40px",
-          borderRadius: "12px",
-          boxShadow: "0 4px 20px rgba(0,0,0,0.05)",
+          background: "var(--card)",
+          padding: "32px",
+          borderRadius: "16px",
+          boxShadow: "var(--shadow)",
+          border: "1px solid var(--border)",
         }}
       >
         <h2
           style={{
             textAlign: "center",
-            borderBottom: `2px solid ${theme.primary}`,
+            borderBottom: "2px solid #07294D",
             paddingBottom: "10px",
-            marginBottom: "30px",
-            color: theme.primary,
-            letterSpacing: "2px",
+            marginBottom: "16px",
+            color: "#07294D",
+            letterSpacing: "1px",
           }}
         >
-          MAIN MENU
+          MENU
         </h2>
 
-        <div style={{ display: "grid", gap: "25px" }}>
-          {food.length > 0 ? (
-            food.map((item) => (
+        <p
+          style={{
+            fontSize: "0.9rem",
+            color: "#777",
+            textAlign: "center",
+            marginBottom: "24px",
+            lineHeight: "1.5",
+          }}
+        >
+          Menus are based on commonly available items for each vendor type and
+          student-observed offerings, since many campus food carts do not publish
+          official menus.
+        </p>
+
+        <div style={{ display: "grid", gap: "8px" }}>
+          {truck.menu && truck.menu.length > 0 ? (
+            truck.menu.map((item, index) => (
               <div
-                key={item.name}
+                key={index}
                 style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "baseline",
+                  padding: "14px 0",
+                  borderBottom: "1px solid #f0f0f0",
+                  fontWeight: "600",
+                  fontSize: "1rem",
+                  lineHeight: "1.5",
+                  wordBreak: "break-word",
                 }}
               >
-                <div style={{ flex: 1 }}>
-                  <div style={{ fontWeight: "700", fontSize: "1.1rem" }}>
-                    {item.name}
-                  </div>
-                  {item.desc && (
-                    <div
-                      style={{
-                        color: "#777",
-                        fontSize: "0.9rem",
-                        marginTop: "4px",
-                      }}
-                    >
-                      {item.desc}
-                    </div>
-                  )}
-                </div>
-                <div
-                  style={{
-                    borderBottom: "1px dotted #CCC",
-                    flex: 1,
-                    margin: "0 10px",
-                  }}
-                />
-                <div style={{ fontWeight: "700", color: theme.primary }}>
-                  {item.price || "$--"}
-                </div>
+                {item}
               </div>
             ))
           ) : (
             <p style={{ textAlign: "center", opacity: 0.5 }}>
-              No food items listed yet.
+              No menu items listed yet.
             </p>
           )}
         </div>
-
-        {drinks.length > 0 && (
-          <>
-            <h2
-              style={{
-                textAlign: "center",
-                borderBottom: `2px solid ${theme.primary}`,
-                paddingBottom: "10px",
-                marginTop: "50px",
-                marginBottom: "30px",
-                color: theme.primary,
-                letterSpacing: "2px",
-              }}
-            >
-              REFRESHMENTS
-            </h2>
-
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "1fr 1fr",
-                gap: "20px",
-              }}
-            >
-              {drinks.map((drink) => (
-                <div
-                  key={drink.name}
-                  style={{
-                    textAlign: "center",
-                    padding: "10px",
-                    border: "1px solid #EEE",
-                    borderRadius: "8px",
-                  }}
-                >
-                  <div style={{ fontWeight: "600" }}>{drink.name}</div>
-                  <div style={{ color: theme.primary, fontSize: "0.9rem" }}>
-                    {drink.price || "$--"}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </>
-        )}
       </section>
 
       <section
         style={{
-          background: "white",
-          padding: "40px",
-          borderRadius: "12px",
-          boxShadow: "0 4px 20px rgba(0,0,0,0.05)",
+          background: "var(--card)",
+          padding: "32px",
+          borderRadius: "16px",
+          boxShadow: "var(--shadow)",
+          border: "1px solid var(--border)",
           marginTop: "30px",
         }}
       >
         <h2
           style={{
             textAlign: "center",
-            borderBottom: `2px solid ${theme.primary}`,
+            borderBottom: "2px solid #07294D",
             paddingBottom: "10px",
             marginBottom: "30px",
-            color: theme.primary,
-            letterSpacing: "2px",
+            color: "#07294D",
+            letterSpacing: "1px",
           }}
         >
           REVIEWS
@@ -426,6 +357,8 @@ export default function FoodcartPage() {
                 minHeight: "80px",
                 fontFamily: "inherit",
                 boxSizing: "border-box",
+                background: "var(--card)",
+                color: "var(--text)",
               }}
             />
 
@@ -434,7 +367,7 @@ export default function FoodcartPage() {
               disabled={submitting}
               style={{
                 marginTop: "10px",
-                background: theme.primary,
+                background: "#07294D",
                 color: "white",
                 padding: "10px 24px",
                 border: "none",
@@ -449,7 +382,7 @@ export default function FoodcartPage() {
           </form>
         ) : (
           <p style={{ textAlign: "center", color: "#999", marginBottom: "20px" }}>
-            <Link href="/login" style={{ color: theme.primary, fontWeight: "600" }}>
+            <Link href="/login" style={{ color: "#07294D", fontWeight: "600" }}>
               Sign in
             </Link>{" "}
             to leave a review.
@@ -475,6 +408,8 @@ export default function FoodcartPage() {
                     justifyContent: "space-between",
                     alignItems: "center",
                     marginBottom: "6px",
+                    gap: "12px",
+                    flexWrap: "wrap",
                   }}
                 >
                   {r.authorId ? (
@@ -483,7 +418,7 @@ export default function FoodcartPage() {
                       style={{
                         fontSize: "0.95rem",
                         fontWeight: "700",
-                        color: theme.primary,
+                        color: "#07294D",
                         textDecoration: "none",
                       }}
                     >
@@ -520,6 +455,7 @@ export default function FoodcartPage() {
                     color: "#555",
                     fontSize: "0.95rem",
                     lineHeight: "1.5",
+                    wordBreak: "break-word",
                   }}
                 >
                   {r.comment}
@@ -534,12 +470,12 @@ export default function FoodcartPage() {
         style={{
           marginTop: "60px",
           textAlign: "center",
-          color: "#AAA",
-          fontSize: "0.8rem",
-          textTransform: "uppercase",
+          color: "#888",
+          fontSize: "0.85rem",
+          lineHeight: "1.5",
         }}
       >
-        Prices and availability subject to change • {truck.id}
+        Menu items are community-informed and may vary by day.
       </footer>
     </main>
   );
